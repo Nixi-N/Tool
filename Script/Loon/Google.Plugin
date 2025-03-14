@@ -3,8 +3,9 @@
 
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Google.png
 
-[Rewrite]
-^https?:\/\/(www.)?(g|google)\.cn https://www.google.com 302
+[MITM]
+hostname = g.cn, *.google.cn
 
-[MitM]
-hostname = *.g.cn,*.google.cn
+[Rewrite]
+# Google CN 重定向
+^https?:\/\/(www\.)?(g|google)\.cn(/?.*)?$ https://www.google.com$3 302
