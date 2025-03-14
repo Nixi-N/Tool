@@ -7,5 +7,4 @@
 hostname = g.cn, *.google.cn
 
 [Rewrite]
-# Google CN 重定向
 ^https?:\/\/(www\.)?(g|google)\.cn(/?.*)?$ https://www.google.com$3 302
