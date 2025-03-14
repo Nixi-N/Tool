@@ -1,0 +1,31 @@
+name: |-
+  MissAV去广告
+desc: |-
+  去广告，禁弹窗，禁止失焦自动暂停
+icon: |-
+  https://github.com/Toperlock/
+Quantumult/raw/main/icon/Doraemon/ Doraemon-1080.png 
+category: |-
+  Block
+rules:
+  - DOMAIN-SUFFIX, creative.myavlive.com, REJECT
+  - DOMAIN-SUFFIX, trackwilltrk.com, REJECT
+  - DOMAIN-SUFFIX, tsyndicate.com, REJECT
+http:
+
+  mitm:
+    - "missav.ai"
+    - "missav.ws"
+  script:
+    - match: ^https:\/\/missav\.(?:ai|Ws)
+\/(?!build|fonts|img|js|api|cdn-cgi)\/).
+    name: "missav.htm1_8" 
+    type: response 
+    require-body: true 
+    max-size: -1
+script-providers:
+  "missav.html_8": 
+    url: https://
+raw.githubusercontent.com/kokoryh/
+Sparkle/refs/heads/master/dist/ missav.html.js
+    interval: 86400
