@@ -1,0 +1,14 @@
+#!name=MissAV去广告
+#!desc=去广告，禁弹窗，禁止失焦自动暂停
+#!category=Block
+
+[Rule]
+DOMAIN-SUFFIX,creative.myavlive.com,REJECT
+DOMAIN-SUFFIX,trackwilltrk.com,REJECT
+DOMAIN-SUFFIX,tsyndicate.com,REJECT
+
+[Script]
+http-response ^https:\/\/missav\.(?:ai|ws)\/(?!(build|fonts|img|js|api|cdn-cgi)\/). script-path=https://raw.githubusercontent.com/kokoryh/Sparkle/refs/heads/master/dist/missav.html.js,requires-body=true, tag = MissAV去广告
+
+[MITM]
+hostname = missav.ai, missav.ws
