@@ -1,0 +1,21 @@
+[Plugin]
+name = YouTube Enhance
+desc = 去除广告/中文字幕/禁用短视频/锁定画质 (整合版)
+icon = https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/YouTube.png
+author = Convert by Assistant
+
+[Mitm]
+hostname = *.googlevideo.com, youtubei.googleapis.com
+
+[Script]
+http-response ^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch) script-path=https://raw.githubusercontent.com/Maasea/sgmodule/master/Script/Youtube/youtube.response.js, requires-body=true, tag=YouTube核心处理, timeout=60
+
+[URLRewrite]
+^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback.+&oad - 307 reject-200
+
+[Rule]
+PROTOCOL,UDP,DOMAIN-SUFFIX,googlevideo.com,REJECT
+PROTOCOL,UDP,DOMAIN-SUFFIX,googleapi.com,REJECT
+
+[Settings]
+valid = 3
