@@ -1,6 +1,6 @@
 name: 禁用fake-ip
 category: qsoyq
-icon: https://raw.githubusercontent.com/qsoyq/shell/main/assets/icon/debug.png
+icon: https://github.com/shindgewongxj/WHATSINStash/raw/main/icon/%24tash.png.png
 desc: |-
     本地 dns 查询返回 real-ip
 dns:
