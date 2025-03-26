@@ -4,8 +4,7 @@ desc: |-
   适用于 missav.ai, missav.ws
 icon: |-
   https://raw.githubusercontent.com/Orz-3/mini/master/Color/Adblock.png
-category: |-
-  Block
+category: ⚙️ ▸ NoAds
 
 rules:
   - DOMAIN-SUFFIX,creative.myavlive.com,REJECT
