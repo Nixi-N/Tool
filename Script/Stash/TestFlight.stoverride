@@ -1,8 +1,8 @@
 name: TestFlight区域限制解除
 desc: 适用于更新TestFlight App时, 提示"APP不可用"问题.
+category: qsoyq
 icon: |-
   https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/TestFlight.png
-category: qsoyq
 http:
   mitm:
     - "testflight.apple.com"
