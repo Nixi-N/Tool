@@ -2,10 +2,10 @@ name: |-
   Github 限速
 desc: |-
   提取 Github Blob 内容
-  category: Vale
 icon: |-
   https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/github_00.png
-
+category: |-
+  Vale
 http:
 
   mitm:
