@@ -1,6 +1,6 @@
 name: Google CN 重定向
 desc: 将 g.cn / google.cn 重定向到 google.com
-category: qsoyq
+category: Vale
 icon: https://cdn.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Google.png
 #>------
 
