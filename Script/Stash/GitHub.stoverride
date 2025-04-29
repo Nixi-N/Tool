@@ -8,11 +8,8 @@ category: |-
   Vale
 
 http:
-
-  mitm:
-    - "raw.githubusercontent.com"
-    - "gist.githubusercontent.com"
-
-  header-rewrite:
-    - >-
-      (raw|gist).githubusercontent.com request-replace Accept-Language en-us
+    mitm:
+        - "gist.githubusercontent.com"
+        - "raw.githubusercontent.com"
+    header-rewrite:
+        - https://(gist|raw).githubusercontent.com request-replace Accept-Language en-us
