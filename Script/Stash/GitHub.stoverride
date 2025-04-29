@@ -3,8 +3,8 @@ name: |-
 desc: |-
   解决GitHub429
 icon: |-
-  https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1096.png
-
+  https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/github_00.png.png
+category: Vale
 http:
 
   mitm:
