@@ -1,5 +1,5 @@
 name: 禁用fake-ip
-category: qsoyq
+category: Vale
 icon: https://github.com/shindgewongxj/WHATSINStash/raw/main/icon/%24tash.png
 desc: |-
     本地 dns 查询返回 real-ip
