@@ -1,0 +1,18 @@
+name: |-
+  Github 429
+desc: |-
+  解除 Github 429 限制
+icon: |-
+  https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/github_00.png
+category: |-
+  Vale
+
+http:
+
+  mitm:
+    - "raw.githubusercontent.com"
+    - "gist.githubusercontent.com"
+
+  header-rewrite:
+    - >-
+      (raw|gist).githubusercontent.com request-replace Accept-Language en-us
