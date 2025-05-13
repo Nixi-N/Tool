@@ -25,7 +25,6 @@ DOMAIN-SUFFIX,telesco.pe
 DOMAIN-SUFFIX,tg.dev
 DOMAIN-SUFFIX,tx.me
 DOMAIN-SUFFIX,usercontent.dev
-DOMAIN-SUFFIX,ingest.us.sentry.io
 IP-CIDR,109.239.140.0/24,no-resolve
 IP-CIDR,149.154.160.0/20,no-resolve
 IP-CIDR,5.28.192.0/18,no-resolve
