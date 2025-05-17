@@ -4,7 +4,7 @@ desc: |-
 icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Apple.png
 category: Vale
 
-rules:
+# rules:
   - DOMAIN,iosapps.itunes.apple.com,DIRECT
 
 http:
