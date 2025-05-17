@@ -1,0 +1,14 @@
+name: |-
+  Github 429
+desc: |-
+  绕过针对 CN 的 `You have triggered a rate limit` 限制
+icon: |-
+  https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/github_00.png
+category: |-
+  Vale
+http:
+    mitm:
+        - "gist.githubusercontent.com"
+        - "raw.githubusercontent.com"
+    header-rewrite:
+        - https://(gist|raw).githubusercontent.com request-replace Accept-Language en-us
