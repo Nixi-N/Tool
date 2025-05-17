@@ -1,0 +1,16 @@
+name: 'CDN Override for iOS Apps'
+desc: |-
+  覆写 iosapps.itunes.apple.com 的 Host Header 到 CDN 域名。
+icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Apple.png
+category: Vale
+http:
+  script:
+    - match: iosapps.itunes.apple.com
+      name: CDN Override
+      type: request
+script-providers:
+  'CDN Override':
+    type: http
+    url: https://raw.githubusercontent.com/Nixi-N/Tool/refs/heads/main/Javascript/cdn_override.js
+    timeout: 10
+    interval: 86400 
