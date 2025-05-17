@@ -1,0 +1,24 @@
+name: amdc
+desc: |-
+    墨鱼自用amdc
+category: ⚙️ ▸ NoAds
+icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/AdBlack.png
+http:
+    mitm:
+        # https://raw.githubusercontent.com/ddgksf2013/Scripts/master/amdc.js
+        
+        
+        # //使用AMDC的APP有：咸鱼、淘宝、盒马、高德、菜鸟、飞猪
+        - amdc.m.taobao.com
+    script:
+        - match: ^https?://amdc.m.taobao.com
+          name: amdc
+          type: response
+          require-body: true
+          max-size: -1
+          timeout: 60
+
+script-providers:
+    amdc:
+        url: https://github.com/ddgksf2013/Scripts/raw/master/amdc.js
+        interval: 86400
