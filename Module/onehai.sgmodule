@@ -1,0 +1,8 @@
+#!name=一嗨租车去开屏广告
+#!desc=去除一嗨租车App的开屏广告。
+
+[Script]
+OneHai Remove Splash Ad = type=http-response,pattern=^https:\/\/app\.1hai\.cn\/HomeNew\/KingKongArea\/ByUserId,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Nixi-N/Tool/refs/heads/main/Script/onehai_ad.js
+
+[MITM]
+hostname = app.1hai.cn
