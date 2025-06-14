@@ -1,3 +1,4 @@
+[General]
 name = WebPage AdBlock (No Google or Baidu)
 description = 精简去广告模块（已移除谷歌重定向与百度相关规则）
 author = RuCu6, ddgksf2013, kokoryh, ZenmoFeiShi
@@ -62,27 +63,4 @@ http-response ^https?:\/\/.*netflix.*\/($|[0-9a-zA-Z=_/-]+\.html$) requires-body
 http-response ^https?:\/\/.*libvio.*me\/($|[0-9a-zA-Z=_/-]+\.html$) requires-body=1,script-path=https://raw.githubusercontent.com/ddgksf2013/Scripts/master/libvio.js,tag=Libvio
 
 [MITM]
-hostname = 
-  missav.ai,
-  missav.ws,
-  18hlw.com,
-  asserts.avple.tv,
-  javdb.com,
-  2023.redircdn.com,
-  *.pornhub.com,
-  www.zxzjhd.com,
-  m.nivod4.tv,
-  *.freeok.*,
-  *netflix*,
-  *bdys*,
-  *cupfox*,
-  *cokemv*,
-  *lezhutv*,
-  *bimi*,
-  18comic.org,
-  *5y*,
-  *gimy*,
-  *tkznp*,
-  *czzy*,
-  *ikandy*,
-  *libvio*
+hostname = missav.ai,missav.ws,18hlw.com,asserts.avple.tv,javdb.com,2023.redircdn.com,*.pornhub.com,www.zxzjhd.com,m.nivod4.tv,*.freeok.*,*netflix*,*bdys*,*cupfox*,*cokemv*,*lezhutv*,*bimi*,18comic.org,*5y*,*gimy*,*tkznp*,*czzy*,*ikandy*,*libvio*
