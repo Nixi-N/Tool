@@ -1,8 +1,5 @@
-name = WebPage AdBlock (No Google or Baidu)
-description = 精简去广告模块（已移除谷歌重定向与百度相关规则）
-author = RuCu6, ddgksf2013, kokoryh, ZenmoFeiShi
-icon = https://raw.githubusercontent.com/sooyaaabo/Loon/main/Icon/App-Icon/Alook.png
-homepage = https://github.com/sooyaaabo/Loon/blob/main/README.md
+#!name = WebPage AdBlock (No Google or Baidu)
+#!desc = 精简去广告模块（已移除谷歌重定向与百度相关规则）
 
 [Rule]
 DOMAIN-SUFFIX,creative.myavlive.com,REJECT
