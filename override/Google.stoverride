@@ -1,15 +1,21 @@
-name: Google CN 重定向
-desc: 将 g.cn / google.cn 重定向到 google.com
-category: Vale
-icon: https://cdn.jsdelivr.net/gh/Koolson/Qure/IconSet/Color/Google.png
-#>------
+# === Google重定向模块 ===
+name: Google重定向
+description: 将 Google 中国站点重定向至 Google 国际站（google.com），适配多个子域名
+author: OpenAI ChatGPT
+icon: https://www.google.com/favicon.ico
 
-http:
-  force-http-engine:
-    - "g.cn"
-    - "*.google.cn"
-  mitm:
-    - "g.cn"
-    - "*.google.cn"
-  rewrite:
-    - ^https?:\/\/(www.)?(g|google)\.cn https://www.google.com 302
+rewrite:
+  - match: ^https?:\/\/(www\.)?google\.cn
+    replace: https://www.google.com
+    status: 302
+  - match: ^https?:\/\/(www\.)?google\.com\.hk
+    replace: https://www.google.com
+    status: 302
+  - match: ^https?:\/\/translate\.google\.cn
+    replace: https://translate.google.com
+    status: 302
+
+mitm:
+  hostname:
+    - '*.google.cn'
+    - '*.google.com.hk'
