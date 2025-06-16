@@ -1,7 +1,9 @@
-# === Google重定向模块 ===
 name: Google重定向
-description: 将 Google 中国站点重定向至 Google 国际站（google.com），适配多个子域名
-author: OpenAI ChatGPT
+desc: |-
+  将 Google 中国站点（google.cn、google.com.hk）和翻译页面（translate.google.cn）
+  重定向到 Google 国际站（google.com），提升访问体验。
+  适用于中国大陆用户或需要避免中国版 Google 限制的场景。
+category: Vale
 icon: https://www.google.com/favicon.ico
 
 rewrite:
