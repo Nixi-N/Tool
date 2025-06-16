@@ -1,0 +1,10 @@
+#!name = Google重定向
+#!desc = 将 Google 中国域名重定向至 Google 国际域名，解决访问限制问题。
+#!icon = https://www.google.com/favicon.ico
+
+[Rewrite]
+^https?:\/\/www\.google\.cn 307 https://www.google.com
+^https?:\/\/translate\.google\.cn 307 https://translate.google.com
+
+[Mitm]
+hostname = *.google.cn
