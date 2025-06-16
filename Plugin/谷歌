@@ -1,7 +1,6 @@
 #!name=Google重定向
 #!desc=将 Google 中国站点重定向至 Google 国际站（google.com），适配 Google 多个子域名
 #!icon=https://www.google.com/favicon.ico
-#!author=ChatGPT优化整合
 #!version=1.0
 
 [Rewrite]
