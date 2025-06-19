@@ -1,0 +1,12 @@
+// empty-image.js - 返回1x1透明PNG图片
+const emptyImageBase64 =
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
+
+$done({
+  status: "200",
+  headers: {
+    "Content-Type": "image/png",
+    "Cache-Control": "no-store"
+  },
+  body: emptyImageBase64
+});
