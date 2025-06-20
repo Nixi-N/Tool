@@ -1,0 +1,9 @@
+#!name= 通杀脚本
+#!desc= 一些app解锁pro
+
+[URL Rewrite]
+^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^/]+$) https://rc-backup.lovebabyforever.workers.dev header
+^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^/]+$) https://reven.lovebabyforever.workers.dev header
+^https:\/\/rc\.visionarytech\.ltd\/.+\/(receipts$|subscribers\/[^/]+$) https://rc.lovebabyforever.workers.dev header
+[MITM]
+hostname = %APPEND% api.revenuecat.com, api.rc-backup.com, rc.visionarytech.ltd
