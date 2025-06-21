@@ -1,4 +1,3 @@
-
 let params = getParams($argument);
 
 (async () => {
