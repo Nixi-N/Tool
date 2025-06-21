@@ -1,12 +1,15 @@
 let params = getParams($argument);
 
 (async () => {
+    // 获取流量信息并计算启动时间
     const traffic = await httpAPI("/v1/traffic", "GET");
     const currentDate = new Date();
     const startTimestamp = Math.floor(traffic.startTime * 1000);
     const startTime = timeTransform(currentDate, startTimestamp);
 
-    if ($trigger === "button") await httpAPI("/v1/profiles/reload");
+    if ($trigger === "button") {
+        await httpAPI("/v1/profiles/reload");
+    }
 
     $done({
         title: "Surge Pro®",
@@ -23,16 +26,23 @@ function timeTransform(currentDate, startTimestamp) {
     const minutes = Math.floor((diff % (3600 * 1000)) / (60 * 1000));
     const seconds = Math.round((diff % (60 * 1000)) / 1000);
 
-    const parts = [];
-    if (days) parts.push(`${days}天`);
-    if (hours || days) parts.push(`${hours}时`);
-    if (minutes || hours || days) parts.push(`${minutes}分`);
-    parts.push(`${seconds}秒`);
-    return parts.join('');
+    if (days > 0) return `${days}天${hours}时${minutes}分`;
+    if (hours > 0) return `${hours}时${minutes}分${seconds}秒`;
+    if (minutes > 0) return `${minutes}分${seconds}秒`;
+    return `${seconds}秒`;
 }
 
-function httpAPI(path = "", method = "POST", body = null) {
+function httpAPI(path, method = "POST", body = null) {
     return new Promise(resolve => {
         $httpAPI(method, path, body, resolve);
     });
+}
+
+function getParams(param) {
+    return Object.fromEntries(
+        param.split("&").map(item => {
+            const [key, value] = item.split("=");
+            return [key, decodeURIComponent(value)];
+        })
+    );
 }
