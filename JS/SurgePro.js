@@ -1,4 +1,4 @@
-```javascript
+javascript
 let params = getParams($argument);
 
 (async () => {
@@ -24,15 +24,23 @@ let params = getParams($argument);
 
 function timeTransform(currentDate, startTimestamp) {
     const diff = currentDate - startTimestamp;
-    const days = Math.floor(diff / (24 * 3600 * 1000)); // 计算天
-    const hours = Math.floor((diff % (24 * 3600 * 1000)) / (3600 * 1000)); // 计算小时
-    const minutes = Math.floor((diff % (3600 * 1000)) / (60 * 1000)); // 计算分钟
-    const seconds = Math.round((diff % (60 * 1000)) / 1000); // 计算秒
+    let remainingTime = diff;
+    
+    const days = Math.floor(remainingTime / (24 * 3600 * 1000));
+    remainingTime %= 24 * 3600 * 1000;
+    
+    const hours = Math.floor(remainingTime / (3600 * 1000));
+    remainingTime %= 3600 * 1000;
+    
+    const minutes = Math.floor(remainingTime / (60 * 1000));
+    remainingTime %= 60 * 1000;
+    
+    const seconds = Math.round(remainingTime / 1000);
 
     const parts = [];
     if (days) parts.push(`${days}天`);
-    if (hours || days) parts.push(`${hours}时`);
-    if (minutes || hours || days) parts.push(`${minutes}分`);
+    if (hours) parts.push(`${hours}时`);
+    if (minutes) parts.push(`${minutes}分`);
     parts.push(`${seconds}秒`);
     return parts.join('');
 }
@@ -48,4 +56,3 @@ function httpAPI(path = "", method = "POST", body = null) {
         });
     });
 }
-```
