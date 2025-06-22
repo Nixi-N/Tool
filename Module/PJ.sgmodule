@@ -1,5 +1,6 @@
 #!name= 通杀
 #!desc= 一些app解锁pro
+#!category=功能模块
 
 [URL Rewrite]
 ^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^/]+$) https://rc-backup.lovebabyforever.workers.dev header
