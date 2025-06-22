@@ -1,6 +1,6 @@
 #!name=Hide VPN Icon
 #!desc=隐藏VPN图标
-#!system=ios
+#!category=功能模块
 
 [General]
 hide-vpn-icon = true
