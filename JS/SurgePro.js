@@ -12,7 +12,7 @@ let params = getParams($argument);
     }
 
     $done({
-        title: "Surge Pro®",
+        title: "Surge Pro",
         content: `启动时长: ${startTime}`,
         icon: params.icon,
         "icon-color": params.color
