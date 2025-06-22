@@ -1,6 +1,6 @@
 #!name=Google重定向
 #!desc=将 Google 中国站点重定向至 Google 国际站（google.com），适配多个子域名
-#!category=Google优化
+#!category=功能模块
 
 [URL Rewrite]
 ^https?:\/\/(www\.)?google\.cn https://www.google.com 302
