@@ -1,0 +1,50 @@
+#!name=Emby 分流 (精简版)
+#!desc=Emby分流模块，域名部分自行修改
+#!params=EmbyProxy
+
+[Rule]
+# Emby 服务器域名分流 请将"your_emby_server_domain.com" 替换为你的 Emby 服务器实际域名
+# 存档服
+DOMAIN-SUFFIX,emby.zn.al,$EmbyProxy
+# KFC
+DOMAIN-SUFFIX,kfc.v50.su,$EmbyProxy
+# Nya
+DOMAIN-SUFFIX,emby.bangumi.ca,$EmbyProxy
+# 肥牛
+DOMAIN-SUFFIX,emby.feiniu.lol,$EmbyProxy
+# 111
+DOMAIN-SUFFIX,cf.xmsl.org,$EmbyProxy
+# 怎么肥事
+DOMAIN-SUFFIX,free.28.al,$EmbyProxy
+# peach
+DOMAIN-SUFFIX,embymv.link,$EmbyProxy
+# 琴鸟
+DOMAIN-SUFFIX,cdn.lyrebirdemby.com,$EmbyProxy
+# 爱骂人素质差
+DOMAIN-SUFFIX,emby1.69yun69.com,$EmbyProxy
+# 跑路云
+DOMAIN-SUFFIX,cctv.paoluma.de,$EmbyProxy
+# youno
+DOMAIN-SUFFIX,emby.younoyes.com,$EmbyProxy
+
+
+
+# Emby 元数据和字幕服务域名
+DOMAIN-SUFFIX,emby.media,$EmbyProxy
+DOMAIN-SUFFIX,emby.com,$EmbyProxy
+DOMAIN-SUFFIX,themoviedb.org,$EmbyProxy
+DOMAIN-SUFFIX,thetvdb.com,$EmbyProxy
+DOMAIN-SUFFIX,fanart.tv,$EmbyProxy
+DOMAIN-SUFFIX,imdb.com,$EmbyProxy
+DOMAIN-SUFFIX,tvmaze.com,$EmbyProxy
+DOMAIN-SUFFIX,opensubtitles.org,$EmbyProxy
+DOMAIN-SUFFIX,subscene.com,$EmbyProxy
+DOMAIN-SUFFIX,allocine.fr,$EmbyProxy
+DOMAIN-SUFFIX,douban.com,$EmbyProxy
+DOMAIN-SUFFIX,omdbapi.com,$EmbyProxy
+DOMAIN-SUFFIX,jellyfin.org,$EmbyProxy
+
+# 针对通用 Emby 或 Jellyfin 相关的关键词匹配
+DOMAIN-KEYWORD,emby,$EmbyProxy
+DOMAIN-KEYWORD,jellyfin,$EmbyProxy
+
