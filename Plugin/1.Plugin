@@ -1,0 +1,6 @@
+
+name=XiaoCanBWC
+type=default
+url=https://gist.githubusercontent.com/Sliverkiss/250a02315f0a2c99f42da3b3573375c8/raw/xcbwc.js
+script-request-filter=^https:\/\/gw\.xiaocantech\.com\/rpc url script-response-body https://gist.githubusercontent.com/Sliverkiss/250a02315f0a2c99f42da3b3573375c8/raw/xcbwc.js
+hostname=gw.xiaocantech.com
