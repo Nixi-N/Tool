@@ -1,5 +1,5 @@
 # 规则名称: Telegram
-# 规则统计: 51
+# 规则统计: 50
 
 DOMAIN,api.mixpanel.com
 DOMAIN,events-gateway.ncdev.site
@@ -9,7 +9,6 @@ DOMAIN-SUFFIX,contest.com
 DOMAIN-SUFFIX,graph.org
 DOMAIN-SUFFIX,imem.app
 DOMAIN-SUFFIX,iturrit.com
-DOMAIN-SUFFIX,intentchat.app
 DOMAIN-SUFFIX,legra.ph
 DOMAIN-SUFFIX,mbrx.app
 DOMAIN-SUFFIX,quiz.directory
