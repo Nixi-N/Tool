@@ -1,39 +1,50 @@
-let body = $response.body;
+/*
+FQNovel Deep Clean Script
+适用于 Surge
+*/
 
 function removeAds(obj) {
 
 if (!obj) return obj;
 
 if (Array.isArray(obj)) {
-return obj.map(removeAds).filter(i => {
-if (!i) return false;
 
-let str = JSON.stringify(i);
+return obj
+.map(removeAds)
+.filter(item => {
+
+if (!item) return false;
+
+let str = JSON.stringify(item).toLowerCase();
 
 if (
 str.includes("ad") ||
 str.includes("advert") ||
 str.includes("banner") ||
 str.includes("promotion") ||
-str.includes("commercial") ||
-str.includes("pangolin")
+str.includes("pangolin") ||
+str.includes("commercial")
 ) {
 return false;
 }
 
 return true;
+
 });
+
 }
 
 if (typeof obj === "object") {
 
 for (let key in obj) {
 
+let lowerKey = key.toLowerCase();
+
 if (
-key.toLowerCase().includes("ad") ||
-key.toLowerCase().includes("advert") ||
-key.toLowerCase().includes("banner") ||
-key.toLowerCase().includes("promotion")
+lowerKey.includes("ad") ||
+lowerKey.includes("advert") ||
+lowerKey.includes("banner") ||
+lowerKey.includes("promotion")
 ) {
 delete obj[key];
 continue;
@@ -51,12 +62,18 @@ return obj;
 
 try {
 
+let body = $response.body;
+
 let json = JSON.parse(body);
 
 json = removeAds(json);
 
 body = JSON.stringify(json);
 
-} catch (e) {}
-
 $done({ body });
+
+} catch (e) {
+
+$done({});
+
+}
