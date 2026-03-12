@@ -1,79 +1,65 @@
 /*
-FQNovel Deep Clean Script
-适用于 Surge
+FQNovel Deep Clean Ultimate JS
+适配 Surge v12 模块
+作者: GPT + Nixi-N
+功能: 清理阅读页广告
 */
-
-function removeAds(obj) {
-
-if (!obj) return obj;
-
-if (Array.isArray(obj)) {
-
-return obj
-.map(removeAds)
-.filter(item => {
-
-if (!item) return false;
-
-let str = JSON.stringify(item).toLowerCase();
-
-if (
-str.includes("ad") ||
-str.includes("advert") ||
-str.includes("banner") ||
-str.includes("promotion") ||
-str.includes("pangolin") ||
-str.includes("commercial")
-) {
-return false;
-}
-
-return true;
-
-});
-
-}
-
-if (typeof obj === "object") {
-
-for (let key in obj) {
-
-let lowerKey = key.toLowerCase();
-
-if (
-lowerKey.includes("ad") ||
-lowerKey.includes("advert") ||
-lowerKey.includes("banner") ||
-lowerKey.includes("promotion")
-) {
-delete obj[key];
-continue;
-}
-
-obj[key] = removeAds(obj[key]);
-
-}
-
-}
-
-return obj;
-
-}
-
-try {
 
 let body = $response.body;
 
-let json = JSON.parse(body);
+function cleanAds(obj) {
+    if (!obj) return obj;
 
-json = removeAds(json);
+    // 如果是数组，递归清理每一项
+    if (Array.isArray(obj)) {
+        return obj
+            .map(cleanAds)
+            .filter(item => {
+                if (!item) return false;
+                let str = JSON.stringify(item).toLowerCase();
+                // 包含常见广告字段则删除
+                return !(
+                    str.includes("ad") ||
+                    str.includes("advert") ||
+                    str.includes("banner") ||
+                    str.includes("promotion") ||
+                    str.includes("pangolin") ||
+                    str.includes("commercial") ||
+                    str.includes("insert") ||
+                    str.includes("popup")
+                );
+            });
+    }
 
-body = JSON.stringify(json);
+    // 如果是对象，递归清理每个 key
+    if (typeof obj === "object") {
+        for (let key in obj) {
+            if (!obj.hasOwnProperty(key)) continue;
+            let k = key.toLowerCase();
+            if (
+                k.includes("ad") ||
+                k.includes("advert") ||
+                k.includes("banner") ||
+                k.includes("promotion") ||
+                k.includes("insert") ||
+                k.includes("popup")
+            ) {
+                delete obj[key];
+                continue;
+            }
+            obj[key] = cleanAds(obj[key]);
+        }
+    }
+
+    return obj;
+}
+
+try {
+    let json = JSON.parse(body);
+    json = cleanAds(json);
+    body = JSON.stringify(json);
+} catch (e) {
+    // 如果不是 JSON 格式，直接返回原 body
+}
 
 $done({ body });
-
-} catch (e) {
-
-$done({});
-
-}
