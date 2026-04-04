@@ -1,6 +1,6 @@
 #!name=Google重定向功能增强
 #!desc=将.cn重定向至.com
-#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1088.png
+#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google_Search.png
 #!tag=DivineEngine
 
 [Rewrite]
