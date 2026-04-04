@@ -1,13 +1,11 @@
-#!name=Google重定向
-#!desc=将 Google 中国站点重定向至 Google 国际站（google.com），适配 Google 多个子域名
-#!icon=https://www.google.com/favicon.ico
-#!version=1.0
+#!name=Google重定向功能增强
+#!desc=将.cn重定向至.com
+#!icon=https://github.com/Toperlock/Quantumult/raw/main/icon/Doraemon/Doraemon-1088.png
+#!tag=DivineEngine
 
 [Rewrite]
-# Google 中国站点重定向
-^https?:\/\/(www\.)?google\.cn 307 https://www.google.com
-^https?:\/\/(www\.)?google\.com\.hk 307 https://www.google.com
-^https?:\/\/translate\.google\.cn 307 https://translate.google.com
+# Redirect Google Search Service
+^https?:\/\/(www.)?(g|google)\.cn https://www.google.com 302
 
-[Mitm]
-hostname = *.google.cn, *.google.com.hk
+[MITM]
+hostname = www.google.cn
