@@ -1,78 +1,246 @@
 /*
-@Name：PingMe 自动化签到+视频奖励 (加固过滤版)
+@Name：PingMe 自动化签到+视频奖励 (Loon/Surge稳定增强版)
 @Author：怎么肥事
-@Modified: Nixi-N
+@Fix：ChatGPT Upgrade
 */
 
 const $ = new Env('PingMe');
+
 const ckKey = 'pingme_capture_v3';
 const SECRET = '0fOiukQq7jXZV2GRi9LGlO';
 const MAX_VIDEO = 5;
 const VIDEO_DELAY = 8000;
 
+// =====================
+// 1. REQUEST CAPTURE
+// =====================
 if (typeof $request !== 'undefined' && $request) {
-  // --- 关键修复：增加域名过滤，防止抓错包 ---
-  if ($request.url.indexOf('api.pingmeapp.net') > -1) {
+
+  if ($request.url.includes('api.pingmeapp.net')) {
+
     const capture = {
       url: $request.url,
       paramsRaw: parseRawQuery($request.url),
-      headers: normalizeHeaderNameMap($request.headers || {})
+      headers: normalizeHeaders($request.headers || {})
     };
+
     $.setdata(JSON.stringify(capture), ckKey);
-    $.msg($.name, '✅ 真正参数抓取成功', `域名验证通过，已保存`);
-    console.log(`【${$.name}】已捕获正确域名数据:\n${JSON.stringify(capture, null, 2)}`);
+
+    $.msg($.name, '✅ 抓包成功', 'Loon/Surge 参数已保存');
+
+    console.log(`CAPTURE:\n${JSON.stringify(capture, null, 2)}`);
   }
-  $.done({}); 
-} else {
-  // 定时任务逻辑
-  const raw = $.getdata(ckKey);
-  if (!raw) {
-    $.msg($.name, '⚠️ 未抓到参数', '请先打开 PingMe App 刷新余额');
-    $.done();
-  } else {
-    let capture = JSON.parse(raw);
-    const headers = buildHeaders(capture);
-    const msgs = [];
 
-    (async () => {
-      // 1. 查询余额
-      try {
-        let res = await fetchApi('queryBalanceAndBonus', capture, headers);
-        let d = JSON.parse(res.body);
-        if (d.retcode === 0) msgs.push(`💰 余额：${d.result.balance} Coins`);
-      } catch (e) { msgs.push('❌ 余额查询失败'); }
-
-      // 2. 签到
-      try {
-        let res = await fetchApi('checkIn', capture, headers);
-        let d = JSON.parse(res.body);
-        if (d.retcode === 0) msgs.push(`✅ 签到：${(d.result?.bonusHint || d.retmsg || '').replace(/\n/g, ' ')}`);
-        else msgs.push(`⚠️ 签到：${d.retmsg}`);
-      } catch (e) { msgs.push('❌ 签到请求失败'); }
-
-      // 3. 视频奖励
-      for (let i = 1; i <= MAX_VIDEO; i++) {
-        await $.wait(i === 1 ? 1500 : VIDEO_DELAY);
-        try {
-          let res = await fetchApi('videoBonus', capture, headers);
-          let d = JSON.parse(res.body);
-          if (d.retcode === 0) msgs.push(`🎬 视频${i}：+${d.result?.bonus} Coins`);
-          else { msgs.push(`⏸ 视频${i}：${d.retmsg}`); break; }
-        } catch (e) { msgs.push(`❌ 视频${i}：失败`); }
-      }
-
-      $.msg($.name, '🎉 任务完成', msgs.join('\n'));
-      $.done();
-    })();
-  }
+  $.done({});
+  return;
 }
 
-// --- 辅助函数 (完整保留) ---
-function normalizeHeaderNameMap(h){const o={};Object.keys(h||{}).forEach(k=>o[k]=h[k]);return o}
-function buildHeaders(c){const h={...c.headers};['Content-Length','content-length',':authority',':method',':path',':scheme'].forEach(k=>delete h[k]);h['Host']='api.pingmeapp.net';return h}
-function parseRawQuery(u){const q=(u.split('?')[1]||'').split('#')[0];const m={};q.split('&').forEach(p=>{const i=p.indexOf('=');if(i>0)m[p.slice(0,i)]=p.slice(i+1)});return m}
-function getUTCSignDate(){const n=new Date();const p=s=>String(s).padStart(2,'0');return `${n.getUTCFullYear()}-${p(n.getUTCMonth()+1)}-${p(n.getUTCDate())} ${p(n.getUTCHours())}:${p(n.getUTCMinutes())}:${p(n.getUTCSeconds())}`}
-function buildUrl(path, c){const p={};Object.keys(c.paramsRaw||{}).forEach(k=>{if(k!=='sign'&&k!=='signDate')p[k]=c.paramsRaw[k]});p.signDate=getUTCSignDate();const s=Object.keys(p).sort().map(k=>`${k}=${p[k]}`).join('&');p.sign=MD5(s+SECRET);const qs=Object.keys(p).map(k=>`${k}=${encodeURIComponent(p[k])}`).join('&');return `https://api.pingmeapp.net/app/${path}?${qs}`}
-async function fetchApi(path, c, h){return await $.http.get({url:buildUrl(path,c),headers:h})}
-function MD5(string){function RotateLeft(lValue,iShiftBits){return(lValue<<iShiftBits)|(lValue>>>(32-iShiftBits))}function AddUnsigned(lX,lY){const lX4=lX&0x40000000,lY4=lY&0x40000000,lX8=lX&0x80000000,lY8=lY&0x80000000;const lResult=(lX&0x3FFFFFFF)+(lY&0x3FFFFFFF);if(lX4&lY4)return lResult^0x80000000^lX8^lY8;if(lX4|lY4)return(lResult&0x40000000)?(lResult^0xC0000000^lX8^lY8):(lResult^0x40000000^lX8^lY8);return lResult^lX8^lY8}function F(x,y,z){return(x&y)|((~x)&z)}function G(x,y,z){return(x&z)|(y&(~z))}function H(x,y,z){return x^y^z}function I(x,y,z){return y^(x|(~z))}function FF(a,b,c,d,x,s,ac){a=AddUnsigned(a,AddUnsigned(AddUnsigned(F(b,c,d),x),ac));return AddUnsigned(RotateLeft(a,s),b)}function GG(a,b,c,d,x,s,ac){a=AddUnsigned(a,AddUnsigned(AddUnsigned(G(b,c,d),x),ac));return AddUnsigned(RotateLeft(a,s),b)}function HH(a,b,c,d,x,s,ac){a=AddUnsigned(a,AddUnsigned(AddUnsigned(H(b,c,d),x),ac));return AddUnsigned(RotateLeft(a,s),b)}function II(a,b,c,d,x,s,ac){a=AddUnsigned(a,AddUnsigned(AddUnsigned(I(b,c,d),x),ac));return AddUnsigned(RotateLeft(a,s),b)}function ConvertToWordArray(str){const lMessageLength=str.length;const lNumberOfWords_temp1=lMessageLength+8;const lNumberOfWords_temp2=(lNumberOfWords_temp1-(lNumberOfWords_temp1%64))/64;const lNumberOfWords=(lNumberOfWords_temp2+1)*16;const lWordArray=Array(lNumberOfWords-1).fill(0);let lBytePosition=0,lByteCount=0;while(lByteCount<lMessageLength){const lWordCount=(lByteCount-(lByteCount%4))/4;lBytePosition=(lByteCount%4)*8;lWordArray[lWordCount]|=str.charCodeAt(lByteCount)<<lBytePosition;lByteCount++}const lWordCount=(lByteCount-(lByteCount%4))/4;lBytePosition=(lByteCount%4)*8;lWordArray[lWordCount]|=0x80<<lBytePosition;lWordArray[lNumberOfWords-2]=lMessageLength<<3;lWordArray[lNumberOfWords-1]=lMessageLength>>>29;return lWordArray}function WordToHex(lValue){let WordToHexValue='';for(let lCount=0;lCount<=3;lCount++){const lByte=(lValue>>>(lCount*8))&255;const WordToHexValue_temp='0'+lByte.toString(16);WordToHexValue+=WordToHexValue_temp.substr(WordToHexValue_temp.length-2,2)}return WordToHexValue}const x=ConvertToWordArray(string);let a=0x67452301,b=0xEFCDAB89,c=0x98BADCFE,d=0x10325476;const S11=7,S12=12,S13=17,S14=22,S21=5,S22=9,S23=14,S24=20;const S31=4,S32=11,S33=16,S34=23,S41=6,S42=10,S43=15,S44=21;for(let k=0;k<x.length;k+=16){const AA=a,BB=b,CC=c,DD=d;a=FF(a,b,c,d,x[k+0],S11,0xD76AA478);d=FF(d,a,b,c,x[k+1],S12,0xE8C7B756);c=FF(c,d,a,b,x[k+2],S13,0x242070DB);b=FF(b,c,d,a,x[k+3],S14,0xC1BDCEEE);a=FF(a,b,c,d,x[k+4],S11,0xF57C0FAF);d=FF(d,a,b,c,x[k+5],S12,0x4787C62A);c=FF(c,d,a,b,x[k+6],S13,0xA8304613);b=FF(b,c,d,a,x[k+7],S14,0xFD469501);a=FF(a,b,c,d,x[k+8],S11,0x698098D8);d=FF(d,a,b,c,x[k+9],S12,0x8B44F7AF);c=FF(c,d,a,b,x[k+10],S13,0xFFFF5BB1);b=FF(b,c,d,a,x[k+11],S14,0x895CD7BE);a=FF(a,b,c,d,x[k+12],S11,0x6B901122);d=FF(d,a,b,c,x[k+13],S12,0xFD987193);c=FF(c,d,a,b,x[k+14],S13,0xA679438E);b=FF(b,c,d,a,x[k+15],S14,0x49B40821);a=GG(a,b,c,d,x[k+1],S21,0xF61E2562);d=GG(d,a,b,c,x[k+6],S22,0xC040B340);c=GG(c,d,a,b,x[k+11],S23,0x265E5A51);b=GG(b,c,d,a,x[k+0],S24,0xE9B6C7AA);a=GG(a,b,c,d,x[k+5],S21,0xD62F105D);d=GG(d,a,b,c,x[k+10],S22,0x02441453);c=GG(c,d,a,b,x[k+15],S23,0xD8A1E681);b=GG(b,c,d,a,x[k+4],S24,0xE7D3FBC8);a=GG(a,b,c,d,x[k+9],S21,0x21E1CDE6);d=GG(d,a,b,c,x[k+14],S22,0xC33707D6);c=GG(c,d,a,b,x[k+3],S23,0xF4D50D87);b=GG(b,c,d,a,x[k+8],S24,0x455A14ED);a=GG(a,b,c,d,x[k+13],S21,0xA9E3E905);d=GG(d,a,b,c,x[k+2],S22,0xFCEFA3F8);c=GG(c,d,a,b,x[k+7],S23,0x676F02D9);b=GG(b,c,d,a,x[k+12],S24,0x8D2A4C8A);a=HH(a, b, c, d, x[k+5], S31, 0xFFFA3942); d=HH(d, a, b, c, x[k+8], S32, 0x8771F681); c=HH(c, d, a, b, x[k+11], S33, 0x6D9D6122); b=HH(b, c, d, a, x[k+14], S34, 0xFDE5380C); a=HH(a, b, c, d, x[k+1], S31, 0xA4BEEA44); d=HH(d, a, b, c, x[k+4], S32, 0x4BDECFA9); c=HH(c, d, a, b, x[k+7], S33, 0xF6BB4B60); b=HH(b, c, d, a, x[k+10], S34, 0xBEBFBC70); a=HH(a, b, c, d, x[k+13], S31, 0x289B7EC6); d=HH(d, a, b, c, x[k+0], S32, 0xEAA127FA); c=HH(c, d, a, b, x[k+3], S33, 0xD4EF3085); b=HH(b, c, d, a, x[k+6], S34, 0x04881D05); a=HH(a, b, c, d, x[k+9], S31, 0xD9D4D039); d=HH(d, a, b, c, x[k+12], S32, 0xE6DB99E5); c=HH(c, d, a, b, x[k+15], S33, 0x1FA27CF8); b=HH(b, c, d, a, x[k+2], S34, 0xC4AC5665); a=II(a, b, c, d, x[k+0], S41, 0xF4292244); d=II(d, a, b, c, x[k+7], S42, 0x432AFF97); c=II(c, d, a, b, x[k+14], S43, 0xAB9423A7); b=II(b, c, d, a, x[k+5], S44, 0xFC93A039); a=II(a, b, c, d, x[k+12], S41, 0x655B59C3); d=II(d, a, b, c, x[k+3], S42, 0x8F0CCC92); c=II(c, d, a, b, x[k+10], S43, 0xFFEFF47D); b=II(b, c, d, a, x[k+1], S44, 0x85845DD1); a=II(a, b, c, d, x[k+8], S41, 0x6FA87E4F); d=II(d, a, b, c, x[k+15], S42, 0xFE2CE6E0); c=II(c, d, a, b, x[k+6], S43, 0xA3014314); b=II(b, c, d, a, x[k+13], S44, 0x4E0811A1); a=II(a, b, c, d, x[k+4], S41, 0xF7537E82); d=II(d, a, b, c, x[k+11], S42, 0xBD3AF235); c=II(c, d, a, b, x[k+2], S43, 0x2AD7D2BB); b=II(b, c, d, a, x[k+9], S44, 0xEB86D391); a=AddUnsigned(a,AA); b=AddUnsigned(b,BB); c=AddUnsigned(c,CC); d=AddUnsigned(d,DD)}return(WordToHex(a)+WordToHex(b)+WordToHex(c)+WordToHex(d)).toLowerCase()}
-function Env(n){this.name=n;this.isSurge=typeof $network!=="undefined";this.isLoon=typeof $loon!=="undefined";this.isQX=typeof $task!=="undefined";this.setdata=(v,k)=>this.isQX?$prefs.setValueForKey(v,k):((this.isLoon||this.isSurge)?$persistentStore.write(v,k):null);this.getdata=(k)=>this.isQX?$prefs.valueForKey(k):((this.isLoon||this.isSurge)?$persistentStore.read(k):null);this.msg=(t,s,b)=>this.isQX?$notify(t,s,b):$notification.post(t,s,b);this.wait=(ms)=>new Promise(r=>setTimeout(r,ms));this.http={get:(o)=>this.isQX?$task.fetch(o):new Promise((r,j)=>{(this.isSurge||this.isLoon?$httpClient:$task).get(o,(e,res,b)=>e?j(e):r({body:b}))})};this.done=(o={})=>$done(o)}
+// =====================
+// 2. MAIN FLOW
+// =====================
+(async () => {
+
+  const raw = $.getdata(ckKey);
+
+  if (!raw) {
+    $.msg($.name, '⚠️ 未抓到参数', '请先打开 App 触发请求');
+    $.done();
+    return;
+  }
+
+  let capture;
+  try {
+    capture = JSON.parse(raw);
+  } catch (e) {
+    $.msg($.name, '⚠️ 参数损坏', '请重新抓包');
+    $.done();
+    return;
+  }
+
+  const headers = buildHeaders(capture);
+  const msgs = [];
+
+  // ---------------------
+  // API WRAPPER（关键升级）
+  // ---------------------
+  function fetchApi(path) {
+    return new Promise((resolve, reject) => {
+      $.http.get({
+        url: buildUrl(path, capture),
+        headers
+      }).then(res => {
+        resolve(res); // ⭐ 不再裁剪 response
+      }).catch(reject);
+    });
+  }
+
+  // ---------------------
+  // 余额
+  // ---------------------
+  try {
+    const res = await fetchApi('queryBalanceAndBonus');
+    const d = JSON.parse(res.body || '{}');
+    if (d.retcode === 0) {
+      msgs.push(`💰 余额：${d.result.balance} Coins`);
+    } else {
+      msgs.push(`⚠️ 余额：${d.retmsg}`);
+    }
+  } catch (e) {
+    msgs.push('❌ 余额请求失败');
+  }
+
+  // ---------------------
+  // 签到
+  // ---------------------
+  try {
+    const res = await fetchApi('checkIn');
+    const d = JSON.parse(res.body || '{}');
+    if (d.retcode === 0) {
+      msgs.push(`✅ 签到：${(d.result?.bonusHint || d.retmsg || '').replace(/\n/g,' ')}`);
+    } else {
+      msgs.push(`⚠️ 签到：${d.retmsg}`);
+    }
+  } catch (e) {
+    msgs.push('❌ 签到失败');
+  }
+
+  // ---------------------
+  // 视频奖励（强化版稳定循环）
+  // ---------------------
+  for (let i = 1; i <= MAX_VIDEO; i++) {
+
+    await wait(i === 1 ? 1500 : VIDEO_DELAY);
+
+    try {
+      const res = await fetchApi('videoBonus');
+      const d = JSON.parse(res.body || '{}');
+
+      if (d.retcode === 0) {
+        msgs.push(`🎬 视频${i}：+${d.result?.bonus || 0} Coins`);
+      } else {
+        msgs.push(`⏸ 视频${i}：${d.retmsg}`);
+        break;
+      }
+
+    } catch (e) {
+      msgs.push(`❌ 视频${i} 请求失败`);
+      break;
+    }
+  }
+
+  // ---------------------
+  // 最终余额
+  // ---------------------
+  try {
+    const res = await fetchApi('queryBalanceAndBonus');
+    const d = JSON.parse(res.body || '{}');
+    if (d.retcode === 0) {
+      msgs.push(`💰 最新余额：${d.result.balance} Coins`);
+    }
+  } catch (e) {}
+
+  $.msg($.name, '🎉 完成', msgs.join('\n'));
+  $.done();
+
+})();
+
+// =====================
+// HELPERS（增强版）
+// =====================
+
+function normalizeHeaders(h) {
+  const out = {};
+  Object.keys(h || {}).forEach(k => {
+    const key = k.toLowerCase();
+    if (!key.startsWith(':') && key !== 'content-length') {
+      out[k] = h[k];
+    }
+  });
+  return out;
+}
+
+function buildHeaders(capture) {
+  const h = normalizeHeaders(capture.headers);
+
+  h['Host'] = 'api.pingmeapp.net';
+  h['Accept'] = 'application/json';
+
+  return h;
+}
+
+function parseRawQuery(url) {
+  const q = (url.split('?')[1] || '').split('#')[0];
+  const obj = {};
+
+  q.split('&').forEach(i => {
+    if (!i) return;
+    const idx = i.indexOf('=');
+    if (idx > -1) obj[i.slice(0, idx)] = i.slice(idx + 1);
+  });
+
+  return obj;
+}
+
+function getUTCSignDate() {
+  const n = new Date();
+  const p = x => String(x).padStart(2, '0');
+  return `${n.getUTCFullYear()}-${p(n.getUTCMonth()+1)}-${p(n.getUTCDate())} ${p(n.getUTCHours())}:${p(n.getUTCMinutes())}:${p(n.getUTCSeconds())}`;
+}
+
+function buildUrl(path, capture) {
+
+  const p = {};
+
+  Object.keys(capture.paramsRaw || {}).forEach(k => {
+    if (k !== 'sign' && k !== 'signDate') {
+      p[k] = capture.paramsRaw[k];
+    }
+  });
+
+  p.signDate = getUTCSignDate();
+
+  const base = Object.keys(p)
+    .sort()
+    .map(k => `${k}=${p[k]}`)
+    .join('&');
+
+  p.sign = MD5(base + SECRET);
+
+  const qs = Object.keys(p)
+    .map(k => `${k}=${encodeURIComponent(p[k])}`)
+    .join('&');
+
+  return `https://api.pingmeapp.net/app/${path}?${qs}`;
+}
+
+// =====================
+// SAFE WAIT
+// =====================
+function wait(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
+
+// =====================
+// Env (保留你原版)
+// =====================
+function Env(name) {
+  this.name = name;
+  this.isSurge = typeof $surge !== "undefined";
+  this.isLoon  = typeof $loon !== "undefined";
+
+  this.setdata = (v,k)=> $persistentStore.write(v,k);
+  this.getdata = (k)=> $persistentStore.read(k);
+
+  this.msg = (t,s,b)=> $notification.post(t,s,b);
+
+  this.http = {
+    get: (opt) => new Promise((resolve, reject) => {
+      $httpClient.get(opt, (err, res, body) => {
+        if (err) reject(err);
+        else resolve(res); // ⭐关键修复：不裁剪
+      });
+    })
+  };
+
+  this.done = ()=> $done();
+}
