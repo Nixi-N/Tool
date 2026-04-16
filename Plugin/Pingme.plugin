@@ -1,0 +1,18 @@
+#!name=PingMe 自动化 (Loon 适配版)
+#!desc=PingMe 签到及视频。已按要求设置测试 Cron。
+#!author=Nixi-N
+#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/PingMe.png
+
+[Rewrite]
+# 抓取参数
+^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://raw.githubusercontent.com/Nixi-N/Tool/refs/heads/main/JS/pingme.js, tag=PingMe抓参, timeout=10
+
+[Cron]
+# 每分钟执行一次 (当前启用，测试完请记得手动停用或删除)
+* * * * * script-path=https://raw.githubusercontent.com/Nixi-N/Tool/refs/heads/main/JS/pingme.js, tag=PingMe每分钟测试
+
+# 每天 8:30 & 20:30 (已按要求注释)
+# 30 8,20 * * * script-path=https://raw.githubusercontent.com/Nixi-N/Tool/refs/heads/main/JS/pingme.js, tag=PingMe签到
+
+[MITM]
+hostname = api.pingmeapp.net
