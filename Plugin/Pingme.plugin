@@ -1,18 +1,20 @@
-#!name=PingMe 自动化 (Loon 适配版)
-#!desc=PingMe 签到及视频。已按要求设置测试 Cron。
-#!author=Nixi-N
-#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/PingMe.png
+#!name = PingMe
+#!desc = 每日签到，loon适配版。进入 App 点击 Coins 页面即可抓取参数。
+#!date = 2026-04-16
+#!author = 怎么肥事[https://t.me/Nzmgs]
+#!icon = https://raw.githubusercontent.com/axhani/icon/refs/heads/main/PingMe.png
+#!loon_version = 3.2.4(787)
 
-[Rewrite]
-# 抓取参数
-^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://raw.githubusercontent.com/Nixi-N/Tool/refs/heads/main/JS/pingme.js, tag=PingMe抓参, timeout=10
+[Argument]
+arg1 = input, "30 8,20 * * *", tag=cron
+arg2 = switch, true, tag=开启抓取参数
 
-[Cron]
-# 每分钟执行一次 (当前启用，测试完请记得手动停用或删除)
-* * * * * script-path=https://raw.githubusercontent.com/Nixi-N/Tool/refs/heads/main/JS/pingme.js, tag=PingMe每分钟测试
+[Script]
+# 定时签到任务
+cron {arg1} script-path=https://raw.githubusercontent.com/Nixi-N/Tool/refs/heads/main/JS/pingme.js, timeout=120, tag=PingMe签到任务
 
-# 每天 8:30 & 20:30 (已按要求注释)
-# 30 8,20 * * * script-path=https://raw.githubusercontent.com/Nixi-N/Tool/refs/heads/main/JS/pingme.js, tag=PingMe签到
+# 抓取参数请求 (拦截 queryBalanceAndBonus 接口)
+http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://raw.githubusercontent.com/Nixi-N/Tool/refs/heads/main/JS/Pingme.js, timeout=300, enable={arg2}, tag=PingMe抓取参数
 
 [MITM]
 hostname = api.pingmeapp.net
