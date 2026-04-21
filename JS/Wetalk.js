@@ -1,7 +1,7 @@
-// ===== 启动日志（关键）=====
+// ===== 启动日志 =====
 console.log("✅ WeTalk 脚本启动");
 
-// ===== Env 兼容（已修复 fetch）=====
+// ===== Env 兼容 =====
 const Env = (() => {
   const isQX = typeof $task !== "undefined";
   const isSurge = typeof $httpClient !== "undefined";
@@ -28,7 +28,9 @@ const Env = (() => {
     });
   };
 
-  return { getdata, setdata, msg, fetch };
+  const done = () => $done();
+
+  return { getdata, setdata, msg, fetch, done };
 })();
 
 // ===== 配置 =====
@@ -37,9 +39,9 @@ const storeKey = "wetalk_accounts_v1";
 const SECRET = "0fOiukQq7jXZV2GRi9LGlO";
 const API_HOST = "api.wetalkapp.com";
 
-// ===== ⚠️ 必须替换成你原始MD5 =====
+// ===== ❗必须替换成你原始 MD5 =====
 function MD5(string) {
-  return string; // ❗这里只是占位！你必须换回原MD5
+  return string; // ⚠️ 这里必须换回你最开始那份 MD5
 }
 
 // ===== 工具 =====
@@ -86,7 +88,7 @@ function buildUrl(path, capture) {
   return `https://${API_HOST}/app/${path}?${qs}`;
 }
 
-// ===== 核心 =====
+// ===== 核心执行 =====
 function run(acc) {
   console.log("🚀 开始执行账号");
 
@@ -104,45 +106,53 @@ function run(acc) {
   })
   .then(r=>{
     console.log("签到返回", r.body);
-    Env.msg("WeTalk","签到返回",r.body);
+    Env.msg("WeTalk","签到结果",r.body);
   })
   .catch(e=>{
     console.log("❌ 错误", e);
+    Env.msg("WeTalk","错误",String(e));
   });
 }
 
-// ===== 抓包 =====
-if (typeof $request !== "undefined") {
+// ===== 主逻辑 =====
+(function(){
 
-  console.log("📥 捕获请求");
+  if (typeof $request !== "undefined") {
+    console.log("📥 捕获请求");
 
-  const store = loadStore();
-  const id = Date.now().toString();
+    const store = loadStore();
+    const id = Date.now().toString();
 
-  store.accounts[id] = {
-    capture: {
-      url: $request.url,
-      paramsRaw: parseRawQuery($request.url),
-      headers: $request.headers
-    }
-  };
+    store.accounts[id] = {
+      capture: {
+        url: $request.url,
+        paramsRaw: parseRawQuery($request.url),
+        headers: $request.headers
+      }
+    };
 
-  store.order.push(id);
-  saveStore(store);
+    store.order.push(id);
+    saveStore(store);
 
-  Env.msg("WeTalk","抓取成功",`账号数:${store.order.length}`);
-
-} else {
+    Env.msg("WeTalk","抓取成功",`账号数:${store.order.length}`);
+    Env.done();
+    return;
+  }
 
   console.log("⏰ 进入定时任务");
 
   const store = loadStore();
-  const ids = store.order;
+  const ids = store.order || [];
 
   if (!ids.length) {
     Env.msg("WeTalk","错误","没有账号");
+    Env.done();
     return;
   }
 
-  run(store.accounts[ids[0]]);
-}
+  run(store.accounts[ids[0]]).then(()=>{
+    console.log("✅ 执行完成");
+    Env.done();
+  });
+
+})();
