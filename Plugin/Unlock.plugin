@@ -3,9 +3,9 @@
 #!category = 功能模块
 
 [rewrite]
-^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^/]+$) header https://rc-backup.lovebabyforever.workers.dev
-^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^/]+$) header https://reven.lovebabyforever.workers.dev
-^https:\/\/rc\.visionarytech\.ltd\/.+\/(receipts$|subscribers\/[^/]+$) header https://rc.lovebabyforever.workers.dev
+^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^/]+$) 302 https://rc-backup.lovebabyforever.workers.dev
+^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^/]+$) 302 https://reven.lovebabyforever.workers.dev
+^https:\/\/rc\.visionarytech\.ltd\/.+\/(receipts$|subscribers\/[^/]+$) 302 https://rc.lovebabyforever.workers.dev
 
 [mitm]
 hostname = api.revenuecat.com, api.rc-backup.com, rc.visionarytech.ltd
