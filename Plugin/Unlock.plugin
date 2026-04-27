@@ -1,12 +1,10 @@
 #!name= Unlock
-#!desc= 一些app解锁pro (内部重定向版)
-#!category= 功能模块
+#!desc= 一些app解锁pro (由 Surge 源码转换)
 
-[Script]
-# 使用脚本实现 silent rewrite，不触发 307，直接在后台更换域名
-http-request ^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^/]+$) script-path=https://raw.githubusercontent.com/Loon0x00/Loon-Toolkit/master/Script/Common/Redirect.js, tag=RC_Redirect_1, argument="https://rc-backup.lovebabyforever.workers.dev"
-
-http-request ^https:\/\/rc\.visionarytech\.ltd\/.+\/(receipts$|subscribers\/[^/]+$) script-path=https://raw.githubusercontent.com/Loon0x00/Loon-Toolkit/master/Script/Common/Redirect.js, tag=RC_Redirect_2, argument="https://rc-baby.lovebabyforever.workers.dev"
+[Rewrite]
+# 如果不想用脚本，这是最简单的 307 显性重定向写法
+^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/(.+)$ 307 https://rc-backup.lovebabyforever.workers.dev/$2
+^https:\/\/rc\.visionarytech\.ltd\/(.+)$ 307 https://rc.lovebabyforever.workers.dev/$1
 
 [MITM]
 hostname = api.revenuecat.com, api.rc-backup.com, rc.visionarytech.ltd
