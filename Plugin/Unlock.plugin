@@ -1,10 +1,14 @@
-#!name= Unlock
-#!desc= 一些app解锁pro (由 Surge 源码转换)
+#!name = Unlock
+#!desc = 一些app解锁pro
+#!author = 
+#!category = 功能模块
 
-[Rewrite]
-# 如果不想用脚本，这是最简单的 307 显性重定向写法
-^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/(.+)$ 307 https://rc-backup.lovebabyforever.workers.dev/$2
-^https:\/\/rc\.visionarytech\.ltd\/(.+)$ 307 https://rc.lovebabyforever.workers.dev/$1
+[rewrite]
+^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^/]+$) header https://rc-backup.lovebabyforever.workers.dev
+^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^/]+$) header https://reven.lovebabyforever.workers.dev
+^https:\/\/rc\.visionarytech\.ltd\/.+\/(receipts$|subscribers\/[^/]+$) header https://rc.lovebabyforever.workers.dev
 
-[MITM]
-hostname = api.revenuecat.com, api.rc-backup.com, rc.visionarytech.ltd
+[mitm]
+api.revenuecat.com
+api.rc-backup.com
+rc.visionarytech.ltd
