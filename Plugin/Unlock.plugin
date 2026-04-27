@@ -1,6 +1,5 @@
 #!name = Unlock
 #!desc = 一些app解锁pro
-#!author = 
 #!category = 功能模块
 
 [rewrite]
@@ -9,6 +8,4 @@
 ^https:\/\/rc\.visionarytech\.ltd\/.+\/(receipts$|subscribers\/[^/]+$) header https://rc.lovebabyforever.workers.dev
 
 [mitm]
-api.revenuecat.com
-api.rc-backup.com
-rc.visionarytech.ltd
+hostname = api.revenuecat.com, api.rc-backup.com, rc.visionarytech.ltd
