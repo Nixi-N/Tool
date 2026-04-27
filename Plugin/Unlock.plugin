@@ -1,14 +1,12 @@
 #!name= Unlock
-#!desc= 一些app解锁pro (适配 Loon 路径保留版)
+#!desc= 一些app解锁pro (内部重定向版)
 #!category= 功能模块
 
-[Rewrite]
-# 匹配 api.revenuecat.com 或 api.rc-backup.com
-# 捕获组 $2 会提取并保留原始 URL 的路径部分
-^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)(\/.+\/(receipts$|subscribers\/[^/]+$)) 307 https://rc-backup.lovebabyforever.workers.dev$2
+[Script]
+# 使用脚本实现 silent rewrite，不触发 307，直接在后台更换域名
+http-request ^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^/]+$) script-path=https://raw.githubusercontent.com/Loon0x00/Loon-Toolkit/master/Script/Common/Redirect.js, tag=RC_Redirect_1, argument="https://rc-backup.lovebabyforever.workers.dev"
 
-# 匹配 rc.visionarytech.ltd
-^https:\/\/rc\.visionarytech\.ltd(\/.+\/(receipts$|subscribers\/[^/]+$)) 307 https://rc.lovebabyforever.workers.dev$1
+http-request ^https:\/\/rc\.visionarytech\.ltd\/.+\/(receipts$|subscribers\/[^/]+$) script-path=https://raw.githubusercontent.com/Loon0x00/Loon-Toolkit/master/Script/Common/Redirect.js, tag=RC_Redirect_2, argument="https://rc-baby.lovebabyforever.workers.dev"
 
 [MITM]
 hostname = api.revenuecat.com, api.rc-backup.com, rc.visionarytech.ltd
