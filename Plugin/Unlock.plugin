@@ -1,19 +1,14 @@
 #!name= Unlock
-#!desc= 一些app解锁pro (RevenueCat 重定向)
+#!desc= 一些app解锁pro (适配 Loon 路径保留版)
 #!category= 功能模块
 
 [Rewrite]
-# 将 RevenueCat 请求重定向至不同的反代 Worker
-# 注意：若多个正则匹配同一个 URL，Loon 通常执行第一条匹配到的规则
+# 匹配 api.revenuecat.com 或 api.rc-backup.com
+# 捕获组 $2 会提取并保留原始 URL 的路径部分
+^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)(\/.+\/(receipts$|subscribers\/[^/]+$)) 307 https://rc-backup.lovebabyforever.workers.dev$2
 
-# 规则 1
-^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/(.+)\/(receipts$|subscribers\/[^/]+$) 307 https://rc-backup.lovebabyforever.workers.dev/$2/$3
-
-# 规则 2 (若需使用此规则，请将其置于规则 1 之上)
-# ^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/(.+)\/(receipts$|subscribers\/[^/]+$) 307 https://reven.lovebabyforever.workers.dev/$2/$3
-
-# 规则 3
-^https:\/\/rc\.visionarytech\.ltd\/(.+)\/(receipts$|subscribers\/[^/]+$) 307 https://rc.lovebabyforever.workers.dev/$1/$2
+# 匹配 rc.visionarytech.ltd
+^https:\/\/rc\.visionarytech\.ltd(\/.+\/(receipts$|subscribers\/[^/]+$)) 307 https://rc.lovebabyforever.workers.dev$1
 
 [MITM]
 hostname = api.revenuecat.com, api.rc-backup.com, rc.visionarytech.ltd
