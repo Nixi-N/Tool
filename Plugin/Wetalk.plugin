@@ -1,0 +1,20 @@
+#!name = WeTalk 自动签到
+#!desc = 抓包 + 自动签到（Loon 适配版，基于 Surge 模块转换）
+#!date = 2026-04-27
+#!author = GPT-Convert
+#!icon = https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Chat.png
+#!loon_version = 3.2.4(787)
+
+[Argument]
+arg1 = input, "30 8,20 * * ", tag=cron
+arg2 = switch, true, tag=开启抓取参数
+
+[Script]
+# ✅ 定时签到任务（与 Surge 同步）
+cron {arg1} script-path=https://raw.githubusercontent.com/Nixi-N/Tool/main/JS/Wetalk.js, timeout=120, tag=WeTalk签到任务
+
+# ✅ 抓包（放宽匹配，确保能抓到 token）
+http-request ^https://api.wetalkapp.com/app/. script-path=https://raw.githubusercontent.com/Nixi-N/Tool/main/JS/Wetalk.js, timeout=300, enable={arg2}, tag=WeTalk抓取参数
+
+[MITM]
+hostname = api.wetalkapp.com
