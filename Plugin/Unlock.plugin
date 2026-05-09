@@ -2,7 +2,7 @@
 #!desc= 一些app解锁pro
 
 [rewrite]
-^https://(api\.revenuecat\.com|api\.rc-backup\.com)(/.+/(receipts$|subscribers/[^/]+$)) https://reven.lovebabyforever.workers.dev$2 header
+^https://(api\.revenuecat\.com|api\.rc-backup\.com)(/.+/(receipts$|subscribers/[^/]+$)) https://rc-backup.lovebabyforever.workers.dev$2 header
 ^https://(api\.revenuecat\.com|api\.rc-backup\.com)(/.+/(receipts$|subscribers/[^/]+$)) header-replace Host api.rc-backup.com
 ^https://rc\.visionarytech\.ltd(/.+/(receipts$|subscribers/[^/]+$)) https://rc.lovebabyforever.workers.dev$1 header
 ^https://rc\.visionarytech\.ltd(/.+/(receipts$|subscribers/[^/]+$)) header-replace Host rc.visionarytech.ltd
