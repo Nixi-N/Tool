@@ -1,12 +1,9 @@
 #!name= Unlock
 #!desc= 一些app解锁pro
-#!author=
-#!icon=
 
 [rewrite]
-^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^/]+$) header https://rc-backup.lovebabyforever.workers.dev
-^https:\/\/(api\.revenuecat\.com|api\.rc-backup\.com)\/.+\/(receipts$|subscribers\/[^/]+$) header https://reven.lovebabyforever.workers.dev
-^https:\/\/rc\.visionarytech\.ltd\/.+\/(receipts$|subscribers\/[^/]+$) header https://rc.lovebabyforever.workers.dev
+^https://(api\.revenuecat\.com|api\.rc-backup\.com)(/.+/(receipts$|subscribers/[^/]+$)) https://reven.lovebabyforever.workers.dev$2 header
+^https://rc\.visionarytech\.ltd(/.+/(receipts$|subscribers/[^/]+$)) https://rc.lovebabyforever.workers.dev$1 header
 
 [mitm]
 hostname = api.revenuecat.com, api.rc-backup.com, rc.visionarytech.ltd
