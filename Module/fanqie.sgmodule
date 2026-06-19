@@ -1,0 +1,56 @@
+#!name=FQNovel Smart Clean v18
+#!desc=番茄小说智能去广告（阅读页/10页广告/开屏）- 不影响抖音拼多多
+#!author=Nixi-N + GPT
+#!version=18.0
+
+[Rule]
+
+# ===== 核心策略：只拦“广告子域”，不动主域 =====
+
+# 字节广告接口（不会影响抖音核心功能）
+DOMAIN,ads3-normal.zijieapi.com,REJECT
+DOMAIN,ads5-normal.zijieapi.com,REJECT
+
+# 穿山甲广告（纯广告域名）
+DOMAIN-SUFFIX,pangolin-sdk-toutiao.com,REJECT
+DOMAIN-SUFFIX,pglstatp-toutiao.com,REJECT
+DOMAIN-SUFFIX,bytescm.com,REJECT
+
+# 广告资源 CDN（安全）
+DOMAIN-SUFFIX,bytegecko.com,REJECT
+
+# 番茄日志（不影响功能）
+DOMAIN,log5-applog.fqnovel.com,REJECT
+DOMAIN,rtlog5-applog.fqnovel.com,REJECT
+
+
+# ===== 关键：只针对“轻量广告接口”拦截 =====
+
+# 低风险 snssdk 广告接口（不会影响抖音视频流）
+DOMAIN,effect.snssdk.com,REJECT
+
+# ⚠️ 不拦 is.snssdk.com（避免抖音问题）
+
+
+[URL Rewrite]
+
+# ===== 静态广告资源（核心） =====
+^https?:\/\/.*pglstatp-toutiao\.com\/obj\/ad-pattern\/ - reject
+^https?:\/\/.*pglstatp-toutiao\.com\/obj\/ad-app-package\/ - reject
+^https?:\/\/.*bytescm\.com\/obj\/static\/ad\/ - reject
+
+# ===== 开屏广告（番茄专属） =====
+^https?:\/\/.*fqnovel.*\/splash - reject
+^https?:\/\/.*fqnovel.*\/startup - reject
+
+
+[Script]
+
+# ===== 精准清理阅读页广告（关键） =====
+番茄阅读净化 = type=http-response,pattern=^https?:\/\/(api\d?-normal.*fqnovel\.com)\/(reading|reader|chapter|content|flow).*,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Nixi-N/Tool/main/JS/fqnovel_surge.js
+
+
+[MITM]
+
+# ⚠️ 只 MITM 番茄 API（绝不碰 snssdk 主域）
+hostname = %APPEND% api5-normal-lf.fqnovel.com,api5-normal.fqnovel.com
